@@ -1,0 +1,4 @@
+\textrm{1) We wish to show that for }T_{1}(n) = 15T_{1}(\frac{n}{2}) + n^{2} \textrm{ is } \Theta(n^{3})\newline \textrm{let b = 2 and a = 15, we wish to show that if a constant exist:  } \epsilon > 0 \textrm{, such that: }\Theta(n^{log_{2}{15} - \epsilon}) = \Theta(n^{3})
+\newline
+\textrm{proof: }\newline
+\textrm{since }n^{log_{2}{8}} < n^{log_{2}{15}} < n^{log_{2}{16}}\textrm{ it must be true that a constant }\epsilon > \textrm{0 exist to make the following case satisfy: }\newline n^{log_{2}{8}} = n^{3} = n^{log_{2}{15} - \epsilon}, where \textrm{ } \epsilon > 0. \newline\textrm{Therefor by case 1, T(n) = }\Theta(n^{3})
