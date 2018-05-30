@@ -1,8 +1,11 @@
 #include <iostream>
 #include <random>
 #include <cstdlib>
-#include <time.h>
 #include <cmath>
+#include <ctime>
+#include <time.h>
+
+
 using namespace std;
 
 void insertionSort(double A[], int size);
@@ -18,15 +21,23 @@ double getRand(double min, double max);
 
 int main()
 {
-	int size = 50;
+	int sizeValue[7] = {1000, 10000, 25000, 50000, 100000, 150000, 200000};
 	double min = 100.00;
 	double max = 1000.00;
-	double* ptr = makeRandArray(size, min, max);
-	//mergeSort(ptr, 0, size-1);
-	//quickSort(ptr, 0, size - 1);
-	//insertionSort(ptr, size);
-	printArray(ptr, size);
+	for (int i = 0; i < 7; i++)
+	{
+		double* ptr = makeRandArray(sizeValue[i], min, max);
 
+		clock_t begin = clock();
+		insertionSort(ptr, sizeValue[i]);
+		clock_t end = clock() - begin;
+		printf("Size %i took:      \t%f seconds\n", sizeValue[i], ((float)end) / CLOCKS_PER_SEC);
+	}
+	//mergeSort(ptr, 0, sizeValue[i] - 1);
+
+	//quickSort(ptr, 0, size - 1);
+	//printArray(ptr, size);
+	system("pause");
 	return 0;
 }
 
