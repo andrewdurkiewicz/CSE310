@@ -4,6 +4,7 @@
 #include <cmath>
 #include <ctime>
 #include <time.h>
+#include <fstream>
 
 
 using namespace std;
@@ -17,34 +18,44 @@ void merge(double arr[], int l, int m, int r);
 int partition(double A[], int p, int r);
 double* makeRandArray(int size, double min, double max);
 double getRand(double min, double max);
-void getTime(int sizeValue[], float timevalues[7][3], int index);
+void getTime(int sizeValue[], float timevalues[7][3][5], int index, int trial);
 
 
 int main()
 {
-
 	int sizeValue[7] = {1000, 10000, 25000, 50000, 100000, 150000, 200000};
-	float timeValues[7][3];
+	float timeValues[7][3][5];
 	for (int i = 0; i < 3; i++) 
 	{
-		getTime(sizeValue, timeValues, i);
-	}
-	for (int i = 0; i < 7; i++)
-	{
-		for (int j = 0; j < 3; j++)
+		for (int j = 0; j < 5; j++)
 		{
-			cout << timeValues[i][j] << "    ";
+			getTime(sizeValue, timeValues, i, j);
 
 		}
-		cout << endl;
 	}
+	ofstream myfile;
+	myfile.open("TimeResults.csv");
+	myfile << "N,Merge,Insertion,QuickSort\n";
+	for (int i = 0; i < 7; i++)
+	{
+		myfile << sizeValue[i] << ",";
+		for (int j = 0; j < 3; j++)
+		{
+			for (int k = 0; k < 5; k++)
+			{
+				myfile << timeValues[i][j][k] << ",";
 
-	system("PAUSE");
+			}
+
+		}
+		myfile << "\n";
+	}
+	myfile.close();
 	return 0;
 }
 
 
-void getTime(int sizeValue[], float timevalues[7][3], int index)
+void getTime(int sizeValue[], float timevalues[7][3][5], int index, int trial)
 {
 	double min = 100.00;
 	double max = 1000.00;
@@ -57,7 +68,7 @@ void getTime(int sizeValue[], float timevalues[7][3], int index)
 			clock_t begin = clock();
 			mergeSort(ptr, 0, sizeValue[i] - 1);
 			clock_t end = clock() - begin;
-			timevalues[i][0] = ((float)end) / CLOCKS_PER_SEC;
+			timevalues[i][0][trial] = ((float)end) / CLOCKS_PER_SEC;
 			delete ptr;
 			break;
 		}
@@ -66,7 +77,7 @@ void getTime(int sizeValue[], float timevalues[7][3], int index)
 			clock_t begin = clock();
 			insertionSort(ptr, sizeValue[i]);
 			clock_t end = clock() - begin;
-			timevalues[i][1] = ((float)end) / CLOCKS_PER_SEC;
+			timevalues[i][1][trial] = ((float)end) / CLOCKS_PER_SEC;
 			delete ptr;
 
 			break;
@@ -76,7 +87,7 @@ void getTime(int sizeValue[], float timevalues[7][3], int index)
 			clock_t begin = clock();
 			quickSort(ptr, 0, sizeValue[i] - 1);
 			clock_t end = clock() - begin;
-			timevalues[i][2] = ((float)end) / CLOCKS_PER_SEC;
+			timevalues[i][2][trial] = ((float)end) / CLOCKS_PER_SEC;
 			delete ptr;
 
 			break;
