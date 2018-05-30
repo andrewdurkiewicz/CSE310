@@ -1,7 +1,8 @@
 #include <iostream>
 #include <random>
-#include<time.h>
 #include <cstdlib>
+#include <time.h>
+
 
 
 void insertionSort(double arr[], int n);
@@ -32,7 +33,8 @@ int main()
 }
 void insertionSort(double arr[], int n)
 {
-	int i, key, j;
+	int i, j;
+	double key;
 	for (i = 1; i < n; i++)
 	{
 		key = arr[i];
@@ -51,14 +53,14 @@ void printArray(double arr[], int n)
 {
 	int i;
 	for (i = 0; i < n; i++)
-		printf("%d ", arr[i]);
+		cout << arr[i] << endl;
 	system("pause");
 }
 
 double* makeRandArray (int size)
 {
 	double* randArray = new double[size];
-	srand(time(0));
+	srand((unsigned int)time(NULL));
 	for (int i = 0; i < size; i++)
 	{
 		randArray[i] = rand() / 10.00;

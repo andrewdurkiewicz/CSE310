@@ -1,5 +1,2 @@
 ﻿  question1.cpp
-c:\users\adurkiew\source\repos\question1\question1\question1.cpp(38): warning C4244: '=': conversion from 'double' to 'int', possible loss of data
-c:\users\adurkiew\source\repos\question1\question1\question1.cpp(54): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'double'
-c:\users\adurkiew\source\repos\question1\question1\question1.cpp(61): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  question1.vcxproj -> C:\Users\adurkiew\source\repos\question1\Debug\question1.exe
+  question1.vcxproj -> C:\Users\andre\Documents\GitHub\CSE310\hw2\question1\Debug\question1.exe
