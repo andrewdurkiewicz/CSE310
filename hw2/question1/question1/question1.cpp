@@ -17,32 +17,74 @@ void merge(double arr[], int l, int m, int r);
 int partition(double A[], int p, int r);
 double* makeRandArray(int size, double min, double max);
 double getRand(double min, double max);
+void getTime(int sizeValue[], float timevalues[7][3], int index);
 
 
 int main()
 {
+
 	int sizeValue[7] = {1000, 10000, 25000, 50000, 100000, 150000, 200000};
+	float timeValues[7][3];
+	for (int i = 0; i < 3; i++) 
+	{
+		getTime(sizeValue, timeValues, i);
+	}
+	for (int i = 0; i < 7; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			cout << timeValues[i][j] << "    ";
+
+		}
+		cout << endl;
+	}
+
+	system("PAUSE");
+	return 0;
+}
+
+
+void getTime(int sizeValue[], float timevalues[7][3], int index)
+{
 	double min = 100.00;
 	double max = 1000.00;
 	for (int i = 0; i < 7; i++)
 	{
 		double* ptr = makeRandArray(sizeValue[i], min, max);
+		switch (index) {
+		case 0:
+		{
+			clock_t begin = clock();
+			mergeSort(ptr, 0, sizeValue[i] - 1);
+			clock_t end = clock() - begin;
+			timevalues[i][0] = ((float)end) / CLOCKS_PER_SEC;
+			delete ptr;
+			break;
+		}
+		case 1:
+		{
+			clock_t begin = clock();
+			insertionSort(ptr, sizeValue[i]);
+			clock_t end = clock() - begin;
+			timevalues[i][1] = ((float)end) / CLOCKS_PER_SEC;
+			delete ptr;
 
-		clock_t begin = clock();
-		insertionSort(ptr, sizeValue[i]);
-		clock_t end = clock() - begin;
-		printf("Size %i took:      \t%f seconds\n", sizeValue[i], ((float)end) / CLOCKS_PER_SEC);
+			break;
+		}
+		case 2:
+		{
+			clock_t begin = clock();
+			quickSort(ptr, 0, sizeValue[i] - 1);
+			clock_t end = clock() - begin;
+			timevalues[i][2] = ((float)end) / CLOCKS_PER_SEC;
+			delete ptr;
+
+			break;
+		}
+		}
 	}
-	//mergeSort(ptr, 0, sizeValue[i] - 1);
 
-	//quickSort(ptr, 0, size - 1);
-	//printArray(ptr, size);
-	system("pause");
-	return 0;
 }
-
-
-
 
 double* makeRandArray (int size, double min, double max)
 {
@@ -196,6 +238,8 @@ void merge(double arr[], int p, int q, int r)
 		j++;
 		k++;
 	}
+	delete Left;
+	delete Right;
 }
 void swap(double A[], int indexOne, int indexTwo)
 {
