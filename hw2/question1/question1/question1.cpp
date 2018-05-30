@@ -3,68 +3,130 @@
 #include <cstdlib>
 #include <time.h>
 
-
-
-void insertionSort(double arr[], int n);
-void printArray(double arr[], int n);
-double* makeRandArray(int size);
-
 using namespace std;
 
+void insertionSort(double A[], int size);
+void printArray(double A[], int size);
+void swap(double A[], int indexOne, int indexTwo);
+void quickSort(double A[], int p, int r);
+int partition(double A[], int p, int r);
+double* makeRandArray(int size, double min, double max);
+double getRand(double min, double max);
 
 
-
-
-/* Driver program to test insertion sort */
 int main()
 {
-	double* ptr = makeRandArray(50);
-	for (int i = 0; i < 50; i++)
-	{
-		cout << ptr[i] << endl;
-	}
-
-	int n = 50;
-
-	insertionSort(ptr, n);
-	printArray(ptr, n);
+	int size = 50;
+	double min = 100.00;
+	double max = 1000.00;
+	double* ptr = makeRandArray(size, min, max);
+	//quickSort(ptr, 0, size - 1);
+	//insertionSort(ptr, size);
+	printArray(ptr, size);
 
 	return 0;
 }
-void insertionSort(double arr[], int n)
+void insertionSort(double A[], int A_Length)
 {
-	int i, j;
+	int i , j;
 	double key;
-	for (i = 1; i < n; i++)
+	for (j = 1; j < A_Length; j++)
 	{
-		key = arr[i];
-		j = i - 1;
-		while (j >= 0 && arr[j] > key)
+		key = A[j];
+		i = j - 1;
+		while (i >= 0 && A[i] > key)
 		{
-			arr[j + 1] = arr[j];
-			j = j - 1;
+			A[i + 1] = A[i];
+			i = i - 1;
 		}
-		arr[j + 1] = key;
+		A[i + 1] = key;
 	}
 }
 
-// A utility function to print an array of size n
 void printArray(double arr[], int n)
 {
 	int i;
 	for (i = 0; i < n; i++)
-		cout << arr[i] << endl;
+		cout << i << ": " << arr[i] << endl;
 	system("pause");
 }
 
-double* makeRandArray (int size)
+double* makeRandArray (int size, double min, double max)
 {
 	double* randArray = new double[size];
-	srand((unsigned int)time(NULL));
+	srand((unsigned int)time(0));
+
 	for (int i = 0; i < size; i++)
 	{
-		randArray[i] = rand() / 10.00;
+		randArray[i] = getRand(min, max);
 	}
 	return randArray;
 
+}
+
+double getRand(double min, double max)
+{
+	double randF = (double)rand() / RAND_MAX;
+	return min + randF * (max - min);
+}
+
+int partition(double A[], int p, int r)
+{
+	double pivot = A[r]; //get pivot
+	int i = p;
+	int j = r - 1;
+	while (true)
+	{
+		while (j >= p)
+		{
+			if (A[j] < pivot)
+			{
+				break;
+			}
+			else 
+			{
+				j--;
+			}
+
+		}
+		while (i < r)
+		{
+			if (A[i] >= pivot)
+			{
+				break;
+			}
+			else
+			{
+				i++;
+			}
+		}
+		if (i < j)
+		{
+			swap(A, i, j);
+		}
+		else
+		{
+			swap(A, i, r);
+			return i;
+		}
+
+	}
+
+}
+
+void quickSort(double A[], int p, int r)
+{
+	if (p < r)
+	{
+		int q = partition(A, p, r);
+		quickSort(A, p, q - 1);
+		quickSort(A, q + 1, r);
+	}
+}
+
+void swap(double A[], int indexOne, int indexTwo)
+{
+	double temp = A[indexOne];
+	A[indexOne] = A[indexTwo];
+	A[indexTwo] = temp;
 }
