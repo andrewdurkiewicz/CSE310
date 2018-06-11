@@ -11,8 +11,8 @@ private:
 		node * left;
 		node* right;
 		node* parent;
-		int key;
-		string data;
+		int key; //flight number
+		double time; //landing time
 	};
 
 
@@ -28,6 +28,7 @@ public:
 	void PREORDER_TREE_WALK(node*);
 	void TREE_INSERT(int);
 	void DELETE(node*);
+	BinarySearchTree::node* FIND_FLIGHT(node* root, int flightnumber);
 	BinarySearchTree::node* FIND_MAX(node*);
 	BinarySearchTree::node* SUCCESSOR(node*);
 	BinarySearchTree::node* FIND_MIN(node*);
@@ -70,7 +71,7 @@ void BinarySearchTree::TREE_INSERT(int d)
 void BinarySearchTree::INORDER_TREE_WALK(node* x)
 {
 	if (x != NULL)
-	{
+	{	
 		if (x->left) INORDER_TREE_WALK(x->left);
 		cout << " " << x->key << " ";
 		if (x->right) INORDER_TREE_WALK(x->right);
@@ -87,22 +88,48 @@ void BinarySearchTree::PREORDER_TREE_WALK(node *x)
 {
 }
 
-void BinarySearchTree::DELETE(node *x)
+void BinarySearchTree::DELETE(node*T, node *z)
 {
+	
+}
+
+BinarySearchTree::node * BinarySearchTree::FIND_FLIGHT(node* x, int flightnumber)
+{
+
+	BinarySearchTree::node* minimum = FIND_MIN(x);
+	try
+	{
+
+		while (true)
+		{
+			if (SUCCESSOR(minimum) == NULL)
+			{
+				throw SUCCESSOR(minimum);
+			}
+			else if (minimum->key = flightnumber)
+			{
+				return minimum;
+			}
+			else
+			{
+				minimum = SUCCESSOR(minimum);
+			}
+		}
+	}
+	catch (node* x)
+	{
+		cout << flightnumber << "Not found" << endl;
+
+	}
 }
 
 BinarySearchTree::node * BinarySearchTree::FIND_MAX(node *x)
 {
-	BinarySearchTree::node* getRoot = x;
-	while (x->parent != NULL)
+	while (x->right != NULL)
 	{
-		getRoot = x->parent;
+		x = x->right;
 	}
-	while (getRoot->right != NULL)
-	{
-		getRoot = getRoot->right;
-	}
-	return getRoot;
+	return x;
 }
 
 BinarySearchTree::node * BinarySearchTree::SUCCESSOR(node *x)
@@ -195,7 +222,11 @@ int main()
 		case 8: cout << endl;
 			cout << " Delete " << endl;
 			cout << " -------------------" << endl;
-			//Code needs to be added here
+			cout << "Which Flight Number would you like to cancel?" << endl << flush;
+			int flightnumber;
+			cin >> flightnumber;
+			b deletethis = bst
+
 			break;
 		case 9: system("pause");
 			return 0;
