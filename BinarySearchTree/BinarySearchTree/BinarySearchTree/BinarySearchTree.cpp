@@ -26,11 +26,13 @@ public:
 	void INORDER_TREE_WALK(node*);
 	void POSTORDER_TREE_WALK(node*);
 	void PREORDER_TREE_WALK(node*);
-	void DELETE(node*);
-	int FIND_MAX(node*);
-	node SUCCESSOR(node*);
-	
 	void TREE_INSERT(int);
+	void DELETE(node*);
+	BinarySearchTree::node* FIND_MAX(node*);
+	BinarySearchTree::node* SUCCESSOR(node*);
+	BinarySearchTree::node* FIND_MIN(node*);
+	
+	
 
 };
 
@@ -77,27 +79,43 @@ void BinarySearchTree::INORDER_TREE_WALK(node* x)
 
 }
 
-void BinarySearchTree::POSTORDER_TREE_WALK(node *)
+void BinarySearchTree::POSTORDER_TREE_WALK(node *x)
 {
 }
 
-void BinarySearchTree::PREORDER_TREE_WALK(node *)
+void BinarySearchTree::PREORDER_TREE_WALK(node *x)
 {
 }
 
-void BinarySearchTree::DELETE(node *)
+void BinarySearchTree::DELETE(node *x)
 {
 }
 
-int BinarySearchTree::FIND_MAX(node *)
+BinarySearchTree::node * BinarySearchTree::FIND_MAX(node *x)
 {
-	return 0;
+	return nullptr;
 }
 
-node BinarySearchTree::SUCCESSOR(node *)
+BinarySearchTree::node * BinarySearchTree::SUCCESSOR(node *x)
 {
-	return node();
+	return nullptr;
 }
+
+BinarySearchTree::node * BinarySearchTree::FIND_MIN(node *x)
+{
+	if (x->right <= x->left){ 
+		return x->right; 
+	}
+	else{
+		return x->left; 
+	}
+}
+
+
+
+
+
+
 
 int main()
 {
@@ -128,17 +146,17 @@ int main()
 		case 2: cout << endl;
 			cout << " Post-Order Traversal " << endl;
 			cout << " -------------------" << endl;
-			//Code needs to be added here
+			bst.POSTORDER_TREE_WALK(bst.root);
 			break;
 		case 3: cout << endl;
 			cout << " Pre-Order Traversal " << endl;
 			cout << " -------------------" << endl;
-			//Code needs to be added here
+			bst.PREORDER_TREE_WALK(bst.root);
 			break;
 		case 4: cout << endl;
 			cout << " Find Max " << endl;
 			cout << " -------------------" << endl;
-			//Code needs to be added here
+			bst.FIND_MAX(bst.root);
 			break;
 		case 5: cout << endl;
 			cout << " Remove Max " << endl;
