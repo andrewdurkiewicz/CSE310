@@ -93,22 +93,40 @@ void BinarySearchTree::DELETE(node *x)
 
 BinarySearchTree::node * BinarySearchTree::FIND_MAX(node *x)
 {
-	return nullptr;
+	BinarySearchTree::node* getRoot = x;
+	while (x->parent != NULL)
+	{
+		getRoot = x->parent;
+	}
+	while (getRoot->right != NULL)
+	{
+		getRoot = getRoot->right;
+	}
+	return getRoot;
 }
 
 BinarySearchTree::node * BinarySearchTree::SUCCESSOR(node *x)
 {
-	return nullptr;
+	if (x->right == NULL)
+	{
+		return x->parent;
+	}
+	else
+	{
+		return FIND_MIN(x->right);
+	}
 }
 
 BinarySearchTree::node * BinarySearchTree::FIND_MIN(node *x)
 {
-	if (x->right <= x->left){ 
-		return x->right; 
+	BinarySearchTree::node* minimum = x;
+
+	if (x->left != NULL)
+	{
+		minimum = x->left;
+		FIND_MIN(minimum);
 	}
-	else{
-		return x->left; 
-	}
+	return minimum;
 }
 
 
@@ -129,11 +147,12 @@ int main()
 		cout << " 1. Insertion " << endl;
 		cout << " 2. Post-Order Traversal" << endl;
 		cout << " 3. Pre-Order Traversal" << endl;
-		cout << " 4. Find Max" << endl;
-		cout << " 5. Remove Max" << endl;
-		cout << " 6. Successor" << endl;
-		cout << " 7. Delete" << endl;
-		cout << " 8. Exit " << endl;
+		cout << " 4. In-Order Traversal" << endl;
+		cout << " 5. Find Max" << endl;
+		cout << " 6. Remove Max" << endl;
+		cout << " 7. Successor" << endl;
+		cout << " 8. Delete" << endl;
+		cout << " 9. Exit " << endl;
 
 		cout << " Enter your choice : ";
 		cin >> choice;
@@ -154,26 +173,31 @@ int main()
 			bst.PREORDER_TREE_WALK(bst.root);
 			break;
 		case 4: cout << endl;
-			cout << " Find Max " << endl;
+			cout << " In-Order Traversal " << endl;
 			cout << " -------------------" << endl;
-			bst.FIND_MAX(bst.root);
+			bst.INORDER_TREE_WALK(bst.root);
 			break;
 		case 5: cout << endl;
+			cout << " Find Max " << endl;
+			cout << " -------------------" << endl;
+			cout << "The Maximum Key is: " << bst.FIND_MAX(bst.root)->key << endl;;
+			break;
+		case 6: cout << endl;
 			cout << " Remove Max " << endl;
 			cout << " -------------------" << endl;
 			//Code needs to be added here
 			break;
-		case 6: cout << endl;
+		case 7: cout << endl;
 			cout << " Successor " << endl;
 			cout << " -------------------" << endl;
-			//Code needs to be added here
+			cout << "The Successor of: " << bst.root->key << " is: " << bst.SUCCESSOR(bst.root)->key << endl;
 			break;
-		case 7: cout << endl;
+		case 8: cout << endl;
 			cout << " Delete " << endl;
 			cout << " -------------------" << endl;
 			//Code needs to be added here
 			break;
-		case 8: system("pause");
+		case 9: system("pause");
 			return 0;
 			break;
 		default:
