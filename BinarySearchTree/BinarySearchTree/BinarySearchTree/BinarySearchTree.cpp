@@ -83,10 +83,24 @@ void BinarySearchTree::INORDER_TREE_WALK(node* x)
 
 void BinarySearchTree::POSTORDER_TREE_WALK(node *x)
 {
+	if (x != NULL)
+	{
+		POSTORDER_TREE_WALK(x->left);
+		POSTORDER_TREE_WALK(x->right);
+		cout << " " << x->key << " ";
+	}
+
+
 }
 
 void BinarySearchTree::PREORDER_TREE_WALK(node *x)
 {
+	if (x != NULL)
+	{
+		cout << " " << x->key << " ";
+		PREORDER_TREE_WALK(x->left);
+		PREORDER_TREE_WALK(x->right);
+	}
 }
 
 
@@ -212,7 +226,6 @@ int main()
 			cout << "Which value do you want to find the successor of?" << endl << flush;
 			cin >> newChoice;
 			x = bst.SEARCH(bst.root, newChoice);
-			cout << bst.SUCCESSOR(x)->key;
 			cout << "The Successor of: " << x->key << " is: " << bst.SUCCESSOR(x)->key<< endl;
 			break;
 		case 8: cout << endl;
