@@ -5,6 +5,10 @@ using namespace std;
 class BinarySearchTree
 {
 private:
+
+
+
+public:
 	class node
 	{
 	public:
@@ -14,9 +18,6 @@ private:
 		int key; //flight number
 		double time; //landing time
 	};
-
-
-public:
 	node * root;
 	BinarySearchTree()
 	{
@@ -28,12 +29,12 @@ public:
 	void PREORDER_TREE_WALK(node*);
 	void TREE_INSERT(int);
 	void DELETE(node*);
-	BinarySearchTree::node* FIND_FLIGHT(node* root, int flightnumber);
+	BinarySearchTree::node* SEARCH(node* root, int key);
 	BinarySearchTree::node* FIND_MAX(node*);
 	BinarySearchTree::node* SUCCESSOR(node*);
 	BinarySearchTree::node* FIND_MIN(node*);
-	
-	
+
+
 
 };
 
@@ -58,7 +59,7 @@ void BinarySearchTree::TREE_INSERT(int d)
 			x = x->right;
 	}
 
-	parent = y;
+	z->parent = y;
 	if (y == NULL)
 		root = z;
 	else if (z->key < y->key)
@@ -71,7 +72,7 @@ void BinarySearchTree::TREE_INSERT(int d)
 void BinarySearchTree::INORDER_TREE_WALK(node* x)
 {
 	if (x != NULL)
-	{	
+	{
 		if (x->left) INORDER_TREE_WALK(x->left);
 		cout << " " << x->key << " ";
 		if (x->right) INORDER_TREE_WALK(x->right);
@@ -88,39 +89,26 @@ void BinarySearchTree::PREORDER_TREE_WALK(node *x)
 {
 }
 
-void BinarySearchTree::DELETE(node*T, node *z)
-{
-	
-}
 
-BinarySearchTree::node * BinarySearchTree::FIND_FLIGHT(node* x, int flightnumber)
+
+BinarySearchTree::node * BinarySearchTree::SEARCH(node* x, int key)
 {
 
 	BinarySearchTree::node* minimum = FIND_MIN(x);
-	try
-	{
 
-		while (true)
+	while (x->right != NULL)
+	{
+		if (x->key == key)
 		{
-			if (SUCCESSOR(minimum) == NULL)
-			{
-				throw SUCCESSOR(minimum);
-			}
-			else if (minimum->key = flightnumber)
-			{
-				return minimum;
-			}
-			else
-			{
-				minimum = SUCCESSOR(minimum);
-			}
+			return x;
+		}
+		else
+		{
+			x = x->right;
 		}
 	}
-	catch (node* x)
-	{
-		cout << flightnumber << "Not found" << endl;
+	
 
-	}
 }
 
 BinarySearchTree::node * BinarySearchTree::FIND_MAX(node *x)
@@ -165,6 +153,9 @@ BinarySearchTree::node * BinarySearchTree::FIND_MIN(node *x)
 int main()
 {
 	BinarySearchTree bst;
+	BinarySearchTree::node* x = new BinarySearchTree::node();
+	int newChoice;
+
 	int choice, key;
 	while (true)
 	{
@@ -212,27 +203,26 @@ int main()
 		case 6: cout << endl;
 			cout << " Remove Max " << endl;
 			cout << " -------------------" << endl;
-			//Code needs to be added here
+			
+
 			break;
 		case 7: cout << endl;
 			cout << " Successor " << endl;
 			cout << " -------------------" << endl;
-			cout << "The Successor of: " << bst.root->key << " is: " << bst.SUCCESSOR(bst.root)->key << endl;
+			cout << "Which value do you want to find the successor of?" << endl << flush;
+			cin >> newChoice;
+			x = bst.SEARCH(bst.root, newChoice);
+			cout << bst.SUCCESSOR(x)->key;
+			cout << "The Successor of: " << x->key << " is: " << bst.SUCCESSOR(x)->key<< endl;
 			break;
 		case 8: cout << endl;
 			cout << " Delete " << endl;
 			cout << " -------------------" << endl;
-			cout << "Which Flight Number would you like to cancel?" << endl << flush;
-			int flightnumber;
-			cin >> flightnumber;
-			b deletethis = bst
-
-			break;
 		case 9: system("pause");
-			return 0;
 			break;
 		default:
 			cout << "Invalid choice";
 		}
+		
 	}
 }
