@@ -28,7 +28,7 @@ public:
 	void POSTORDER_TREE_WALK(node*);
 	void PREORDER_TREE_WALK(node*);
 	void TREE_INSERT(int);
-	void DELETE(node*);
+	void DELETE(node*, node*,node*);
 	BinarySearchTree::node* SEARCH(node* root, int key);
 	BinarySearchTree::node* FIND_MAX(node*);
 	BinarySearchTree::node* SUCCESSOR(node*);
@@ -67,6 +67,50 @@ void BinarySearchTree::TREE_INSERT(int d)
 	else
 		y->right = z;
 
+}
+
+void BinarySearchTree::DELETE( node* x, node* y, node *z)
+{
+
+	if ((z->left == NULL) || (z->right == NULL))
+	{
+		y = z;
+	}
+	else if ((z->left != NULL) && (z->right != NULL))
+	{
+		y = SUCCESSOR(z);
+	}
+	if (y->left != NULL)
+	{
+		x = y->left;
+	}
+	else if (y->left == NULL)
+	{
+		x = y->right;
+	}
+	if (x != NULL)
+	{
+		x->parent = y->parent;
+	}
+	if (y->parent == NULL)
+	{
+		root = x;
+	}
+	else if (y->parent != NULL)
+	{
+		if (y = y->parent->left)
+		{
+			y->parent->left = x;
+		}
+		else
+		{
+			y->parent->right = x;
+		}
+	}
+	if (y != z)
+	{
+		z->key = y->key;
+	}
 }
 
 void BinarySearchTree::INORDER_TREE_WALK(node* x)
@@ -168,6 +212,8 @@ int main()
 {
 	BinarySearchTree bst;
 	BinarySearchTree::node* x = new BinarySearchTree::node();
+	BinarySearchTree::node* y = new BinarySearchTree::node();
+
 	int newChoice;
 
 	int choice, key;
@@ -217,7 +263,10 @@ int main()
 		case 6: cout << endl;
 			cout << " Remove Max " << endl;
 			cout << " -------------------" << endl;
-			
+			cout << "The Maximum Key is: " << bst.FIND_MAX(bst.root)->key << endl;;
+			cout << "Now Deleteing Max..." << endl;
+			bst.DELETE(x, y, bst.FIND_MAX(bst.root));
+
 
 			break;
 		case 7: cout << endl;
@@ -229,8 +278,11 @@ int main()
 			cout << "The Successor of: " << x->key << " is: " << bst.SUCCESSOR(x)->key<< endl;
 			break;
 		case 8: cout << endl;
+
 			cout << " Delete " << endl;
 			cout << " -------------------" << endl;
+			bst.DELETE(x, y, bst.root);
+			break;
 		case 9: system("pause");
 			break;
 		default:
