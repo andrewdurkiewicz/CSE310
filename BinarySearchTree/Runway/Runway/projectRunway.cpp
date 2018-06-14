@@ -62,7 +62,7 @@ void BinarySearchTree::TREE_INSERT(int timeArrival, int flightNumber)
 
 	z->parent = y;
 	if (y == NULL)
-		root = z;
+		this->root = z;
 	else if (z->arrivalTime < y->arrivalTime)
 		y->left = z;
 	else
@@ -147,7 +147,14 @@ void BinarySearchTree::INORDER_TREE_WALK(node *x)
 		cout << "Flight #" << x->flightnumber << " Arriving in: " << x->arrivalTime << " Minutes" << endl;
 		if (x->right) INORDER_TREE_WALK(x->right);
 	}
-
+void BinarySearchTree::clearedForLanding(int timeArrival)
+{
+	int FNumber;
+	cout << "you are clear for landing" << endl;
+	cout << "What is your flight number? ";
+	cin >> FNumber;
+	TREE_INSERT(timeArrival, FNumber);
+}
 
 
 
@@ -233,36 +240,40 @@ BinarySearchTree::node * BinarySearchTree::FIND_MIN(node *x)
 
 
 
+
 int main()
 {
-	int LT, choice, timegap;
 	BinarySearchTree bst;
-	cout << "Welcome to SkyHarbor" << endl;
-	cout << "What option would you like to see? " << endl;
-	cout << "1. Add a flight." << endl;
-	cout << "2. Print the current flight list" << endl;
-	cout << "3. Remove a flight from the current list" << endl;
-	cout << "4. Exit" << endl << flush;
-	cin >> choice;
-	
-	switch (choice)
+	int LT, choice, timegap;
+
+	while (true)
 	{
-	case 1: 
-		cout << "What time gap are we looking at here? " << endl << flush;
-		cin >> timegap;
-		cout << "This is Roblox runway 32B, What is your landing time inbound? " << endl << flush;
-		cin >> LT;
-		bst.flightRequest(bst.root, LT, timegap);
-		break;
-	case 2:
-		bst.INORDER_TREE_WALK(bst.root);
-		break;
-		
-	default:
-		break;
+		cout << "Welcome to SkyHarbor" << endl;
+		cout << "What option would you like to see? " << endl;
+		cout << "1. Add a flight." << endl;
+		cout << "2. Print the current flight list" << endl;
+		cout << "3. Remove a flight from the current list" << endl;
+		cout << "4. Exit" << endl << flush;
+		cin >> choice;
+
+		switch (choice)
+		{
+		case 1:
+			cout << "What time gap are we looking at here? " << endl << flush;
+			cin >> timegap;
+			cout << "This is Roblox runway 32B, What is your landing time inbound? " << endl << flush;
+			cin >> LT;
+			bst.flightRequest(bst.root, LT, timegap);
+			break;
+		case 2:
+			bst.INORDER_TREE_WALK(bst.root);
+			break;
+
+		default:
+			break;
+		}
+
 	}
-
-
 	system("pause");
 
 	return 0;
