@@ -100,6 +100,26 @@ void BinarySearchTree::DELETE(node *z)
 
 }
 
+void BinarySearchTree::swap(BinarySearchTree::node *u, BinarySearchTree::node *v) //from the book
+{
+	if (u->parent == NULL)
+	{
+		root = v;
+	}
+	else if (u == u->parent->left)
+	{
+		u->parent->left = v;
+	}
+	else
+	{
+		u->parent->right = v;
+	}
+	if (v != NULL)
+	{
+		v->parent = u->parent;
+	}
+}
+
 void BinarySearchTree::flightRequest(node * tmp, int timeArrival, int k)
 {
 	if (tmp == NULL)
@@ -148,25 +168,7 @@ void BinarySearchTree::clearedForLanding(int timeArrival)
 	TREE_INSERT(timeArrival, FNumber);
 }
 
-void BinarySearchTree::swap(BinarySearchTree::node *u, BinarySearchTree::node *v) //from the book
-{
-	if (u->parent == NULL)
-	{
-		root = v;
-	}
-	else if (u == u->parent->left)
-	{
-		u->parent->left = v;
-	}
-	else
-	{
-		u->parent->right = v;
-	}
-	if (v != NULL)
-	{
-		v->parent = u->parent;
-	}
-}
+
 
 
 

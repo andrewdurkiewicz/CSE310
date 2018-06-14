@@ -28,7 +28,8 @@ public:
 	void POSTORDER_TREE_WALK(node*);
 	void PREORDER_TREE_WALK(node*);
 	void TREE_INSERT(int);
-	void DELETE(node*);
+	void DELETE(node * z);
+	void swap(BinarySearchTree::node * u, BinarySearchTree::node * v);
 	BinarySearchTree::node* SEARCH(node* root, int key);
 	BinarySearchTree::node* FIND_MAX(node*);
 	BinarySearchTree::node* SUCCESSOR(node*);
@@ -70,48 +71,50 @@ void BinarySearchTree::TREE_INSERT(int d)
 }
 
 void BinarySearchTree::DELETE(node *z)
-
 {
-	cout << "DELETE" << " " << z->key;
-	BinarySearchTree::node* temp;
-
-	if ((z->left == NULL) && (z->right == NULL))//No children
+	node* y = new node();
+	if (z->left == NULL)
 	{
-		temp = z->parent;
-		if (temp->right == z)
+		swap(z, z->right);
+	}
+	else if (z->right == NULL)
+	{
+		swap(z, z->left);
+	}
+	else
+	{
+		y = FIND_MIN(z->right);
+		if (y->parent != z)
 		{
-			temp->right = NULL;
-
+			swap(y, y->right);
+			y->right = z->right;
+			y->right->parent = y;
 		}
-		else if (temp->left == z)
-		{
-			temp->left = NULL;
-		}
-		delete[] z;
+		swap(z, y);
+		y->left = z->left;
+		y->left->parent = y;
 	}
-	else if ((z->right == NULL) && (z->left != NULL))
-	{
 
-		temp = z->parent;
-		z = z->left;
-		z->parent = temp;
-		temp->left = z;
-	}
-	else if ((z->left == NULL) && (z->right != NULL))
-	{
-		temp = z->parent;
-		z = z->right;
-		z->parent = temp;
-		temp->right = z;
-	}
-	else if ((z->left != NULL) && (z->right != NULL))
-	{
-		temp = FIND_MIN(z->right);
-		z->key = temp->key;
-		temp->parent->left = NULL;
-		delete[] temp;
-		
 
+}
+
+void BinarySearchTree::swap(BinarySearchTree::node *u, BinarySearchTree::node *v) //from the book
+{
+	if (u->parent == NULL)
+	{
+		root = v;
+	}
+	else if (u == u->parent->left)
+	{
+		u->parent->left = v;
+	}
+	else
+	{
+		u->parent->right = v;
+	}
+	if (v != NULL)
+	{
+		v->parent = u->parent;
 	}
 }
 
