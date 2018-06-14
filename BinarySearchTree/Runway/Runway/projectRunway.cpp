@@ -6,8 +6,6 @@ class BinarySearchTree
 {
 private:
 
-
-
 public:
 	class node
 	{
@@ -30,7 +28,7 @@ public:
 	void TREE_INSERT(int,int);
 	void DELETE(node*);
 	void flightRequest(node*, int, int);
-
+	void clearedForLanding(int);
 	BinarySearchTree::node* SEARCH(node* root, int arrivalTime);
 	BinarySearchTree::node* FIND_MAX(node*);
 	BinarySearchTree::node* SUCCESSOR(node*);
@@ -118,43 +116,49 @@ void BinarySearchTree::DELETE(node *z)
 	}
 }
 
-void BinarySearchTree::flightRequest(node * root, int timeArrival, int k)
+void BinarySearchTree::flightRequest(node * tmp, int timeArrival, int k)
 {
-	int flightnumber;
-	BinarySearchTree::node* tmp = root;
-	if (root = NULL)
+	if (tmp == NULL)
 	{
-		cout << "you are clear for landing" << endl;
-		cout << "What is your flight number?";
-		cin >> flightnumber;
-		TREE_INSERT(timeArrival, flightnumber);
+		clearedForLanding(timeArrival);
 	}
 	else if (tmp != NULL)
 	{
-		while (tmp->right != NULL)
+		if (tmp->right == NULL)
 		{
-			if (tmp->arrivalTime >= timeArrival)
+			if (k >= (timeArrival - tmp->arrivalTime))
 			{
-				if (k >= (timeArrival - tmp->arrivalTime) && k >= (tmp->right->arrivalTime - timeArrival))
-				{
-					cout << "you are clear for landing" << endl;
-					cout << "What is your flight number?";
-					cin >> flightnumber;
-					TREE_INSERT(timeArrival, flightnumber);
-
-
-				}
+				clearedForLanding(timeArrival);
 			}
 		}
+		else if (tmp->right != NULL)
+		{
+			if (k >= (timeArrival - tmp->arrivalTime) && k >= (timeArrival - tmp->right->arrivalTime))
+			{
+				clearedForLanding(timeArrival);
+			}
+		}
+
 	}
 }
+
+void BinarySearchTree::clearedForLanding(int timeArrival)
+{
+	int FNumber;
+	cout << "you are clear for landing" << endl;
+	cout << "What is your flight number? ";
+	cin >> FNumber;
+	TREE_INSERT(timeArrival, FNumber);
+}
+
+
 
 void BinarySearchTree::INORDER_TREE_WALK(node* x)
 {
 	if (x != NULL)
 	{
 		if (x->left) INORDER_TREE_WALK(x->left);
-		cout << " " << x->arrivalTime << " ";
+		cout << "Flight #" << x->flightnumber << " Arriving in: " << x->arrivalTime << " Minutes" << endl;
 		if (x->right) INORDER_TREE_WALK(x->right);
 	}
 
@@ -242,15 +246,15 @@ BinarySearchTree::node * BinarySearchTree::FIND_MIN(node *x)
 
 
 
-\
+
 int main()
 {
 	BinarySearchTree bst;
 	cout << "Welcome to SkyHarbor" << endl;
-	bst.flightRequest(bst.root, 45, 1);
+	bst.flightRequest(bst.root, 445, 1);
 	bst.flightRequest(bst.root, 60, 1);
 
-	bst.PREORDER_TREE_WALK(bst.root);
+	bst.INORDER_TREE_WALK(bst.root);
 	system("pause");
 
 	return 0;
@@ -258,34 +262,4 @@ int main()
 	
 }
 
-void flightRequest(BinarySearchTree::node* root,int timeArrival, int k)
-{
-	BinarySearchTree bst;
-	int flightnumber;
-	BinarySearchTree::node* tmp = root;
-	if(tmp = NULL)
-	{
-		cout << "you are clear for landing" << endl;
-		cout << "What is your flight number?";
-		cin >> flightnumber;
-		bst.TREE_INSERT(timeArrival, flightnumber);
-	}
-	else if (tmp != NULL)
-	{
-		while (tmp->right != NULL)
-		{
-			if (tmp->arrivalTime >= timeArrival)
-			{
-				if (k >= (timeArrival - tmp->arrivalTime) && k >= (tmp->right->arrivalTime - timeArrival))
-				{
-					cout << "you are clear for landing" << endl;
-					cout << "What is your flight number?";
-					cin >> flightnumber;
-					bst.TREE_INSERT(timeArrival, flightnumber);
 
-
-				}
-			}
-		}
-	}
-}
