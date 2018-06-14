@@ -31,6 +31,7 @@ public:
 	void flightRequest(node*, int, int);
 	void clearedForLanding(int);
 	void swap(BinarySearchTree::node*, BinarySearchTree::node*);
+	BinarySearchTree::node* findBounds(int arrivalTime);
 	BinarySearchTree::node* SEARCH(node* root, int arrivalTime);
 	BinarySearchTree::node* FIND_MAX(node*);
 	BinarySearchTree::node* SUCCESSOR(node*);
@@ -120,8 +121,47 @@ void BinarySearchTree::swap(BinarySearchTree::node *u, BinarySearchTree::node *v
 	}
 }
 
+BinarySearchTree::node * BinarySearchTree::findBounds(int AT)
+{
+	BinarySearchTree::node * tmp = FIND_MIN(root);
+	if (tmp == NULL)
+	{
+		return NULL;
+	}
+	while (true)
+	{
+		if (tmp->right != NULL)
+		{
+			if (tmp->arrivalTime < AT)
+			{
+				tmp = tmp->right;
+			}
+			else
+			{
+				return tmp->right;
+			}
+		}
+
+		if (tmp->right == NULL)
+		{
+			if (tmp->arrivalTime >= AT)
+			{
+				return tmp;
+
+			}
+			else
+			{
+				return NULL;
+			}
+		}
+	}
+
+
+}
+
 void BinarySearchTree::flightRequest(node * tmp, int timeArrival, int k)
 {
+	tmp = findBounds(timeArrival);
 	if (tmp == NULL)
 	{
 		clearedForLanding(timeArrival);
@@ -136,7 +176,7 @@ void BinarySearchTree::flightRequest(node * tmp, int timeArrival, int k)
 			}
 			else
 			{
-				cout << "You are NOT clear to land, not enough time between" << endl;
+				cout << "You are NOT clear to land, not enough time between flights." << endl;
 			}
 		}
 		else if (tmp->right != NULL)
@@ -147,7 +187,7 @@ void BinarySearchTree::flightRequest(node * tmp, int timeArrival, int k)
 			}
 			else
 			{
-				cout << "You are NOT clear to land, not enough time between" << endl;
+				cout << "You are NOT clear to land, not enough time between flights." << endl;
 			}
 		}
 
@@ -239,6 +279,10 @@ BinarySearchTree::node * BinarySearchTree::SUCCESSOR(node *x)
 
 BinarySearchTree::node * BinarySearchTree::FIND_MIN(node *x)
 {
+	if (x == NULL)
+	{
+		return NULL;
+	}
 	BinarySearchTree::node* minimum = x;
 
 	if (x->left != NULL)
@@ -248,11 +292,6 @@ BinarySearchTree::node * BinarySearchTree::FIND_MIN(node *x)
 	}
 	return minimum;
 }
-
-
-
-
-
 
 
 int main()
@@ -267,30 +306,29 @@ int main()
 	{
 		cout << "What option would you like to see? " << endl;
 		cout << "1. Add a flight." << endl;
-		cout << "2. Print the current flight list" << endl;
-		cout << "3. Remove a flight from the current list" << endl;
+		cout << "2. Remove a flight from the current list" << endl;
+		cout << "3. Print the current flight list" << endl;
 		cout << "4. Exit" << endl << flush;
 		cin >> choice;
 
 		switch (choice)
 		{
-		case 1:
-
+		case 1: cout << endl;
 			cout << "This is Roblox runway 32B, What is your landing time inbound? " << endl << flush;
 			cin >> LT;
 			bst.flightRequest(bst.root, LT, timegap);
 			break;
-		case 2:
+		case 2: cout << endl;
+			cout << "Which flight from below would you like to cancel? (Give Flight Number)" << endl << endl;
 			bst.INORDER_TREE_WALK(bst.root);
-			
-			break;
-		case 3:
-			bst.INORDER_TREE_WALK(bst.root);
-			cout << "Which Flight would you like to cancel? " << endl;
 			cin >> cancelChoice;
 			temp = bst.SEARCH(bst.root, cancelChoice);
+			cout << endl;
+			cout << "Here is the resulting list: " << endl;
 			bst.DELETE(temp);
+		case 3: cout << endl;
 			bst.INORDER_TREE_WALK(bst.root);
+			break;
 		case 4:
 			exit(0);
 		default:
