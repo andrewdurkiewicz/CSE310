@@ -28,7 +28,7 @@ public:
 	void POSTORDER_TREE_WALK(node*);
 	void PREORDER_TREE_WALK(node*);
 	void TREE_INSERT(int);
-	void DELETE(node*, node*,node*);
+	void DELETE(node*);
 	BinarySearchTree::node* SEARCH(node* root, int key);
 	BinarySearchTree::node* FIND_MAX(node*);
 	BinarySearchTree::node* SUCCESSOR(node*);
@@ -69,47 +69,49 @@ void BinarySearchTree::TREE_INSERT(int d)
 
 }
 
-void BinarySearchTree::DELETE( node* x, node* y, node *z)
-{
+void BinarySearchTree::DELETE(node *z)
 
-	if ((z->left == NULL) || (z->right == NULL))
+{
+	cout << "DELETE" << " " << z->key;
+	BinarySearchTree::node* temp;
+
+	if ((z->left == NULL) && (z->right == NULL))//No children
 	{
-		y = z;
+		temp = z->parent;
+		if (temp->right == z)
+		{
+			temp->right = NULL;
+
+		}
+		else if (temp->left == z)
+		{
+			temp->left = NULL;
+		}
+		delete[] z;
+	}
+	else if ((z->right == NULL) && (z->left != NULL))
+	{
+
+		temp = z->parent;
+		z = z->left;
+		z->parent = temp;
+		temp->left = z;
+	}
+	else if ((z->left == NULL) && (z->right != NULL))
+	{
+		temp = z->parent;
+		z = z->right;
+		z->parent = temp;
+		temp->right = z;
 	}
 	else if ((z->left != NULL) && (z->right != NULL))
 	{
-		y = SUCCESSOR(z);
-	}
-	if (y->left != NULL)
-	{
-		x = y->left;
-	}
-	else if (y->left == NULL)
-	{
-		x = y->right;
-	}
-	if (x != NULL)
-	{
-		x->parent = y->parent;
-	}
-	if (y->parent == NULL)
-	{
-		root = x;
-	}
-	else if (y->parent != NULL)
-	{
-		if (y = y->parent->left)
-		{
-			y->parent->left = x;
-		}
-		else
-		{
-			y->parent->right = x;
-		}
-	}
-	if (y != z)
-	{
-		z->key = y->key;
+		temp = FIND_MIN(z->right);
+		z->key = temp->key;
+		temp->parent->left = NULL;
+		delete[] temp;
+		
+
 	}
 }
 
@@ -214,7 +216,8 @@ int main()
 	BinarySearchTree::node* x = new BinarySearchTree::node();
 	BinarySearchTree::node* y = new BinarySearchTree::node();
 
-	int newChoice;
+	int delChoice;
+	int SucChoice;
 
 	int choice, key;
 	while (true)
@@ -265,23 +268,23 @@ int main()
 			cout << " -------------------" << endl;
 			cout << "The Maximum Key is: " << bst.FIND_MAX(bst.root)->key << endl;;
 			cout << "Now Deleteing Max..." << endl;
-			bst.DELETE(x, y, bst.FIND_MAX(bst.root));
-
-
+			bst.DELETE(bst.FIND_MAX(bst.root));
 			break;
 		case 7: cout << endl;
 			cout << " Successor " << endl;
 			cout << " -------------------" << endl;
 			cout << "Which value do you want to find the successor of?" << endl << flush;
-			cin >> newChoice;
-			x = bst.SEARCH(bst.root, newChoice);
+			cin >> SucChoice;
+			x = bst.SEARCH(bst.root, SucChoice);
 			cout << "The Successor of: " << x->key << " is: " << bst.SUCCESSOR(x)->key<< endl;
 			break;
 		case 8: cout << endl;
-
 			cout << " Delete " << endl;
 			cout << " -------------------" << endl;
-			bst.DELETE(x, y, bst.root);
+			cout << "Enter the key for which you want to delete: " << endl << flush;
+			cin >> delChoice;
+			bst.DELETE(bst.SEARCH(bst.root, delChoice));
+			
 			break;
 		case 9: system("pause");
 			break;
