@@ -74,10 +74,29 @@ void BinarySearchTree::TREE_INSERT(int timeArrival, int flightNumber)
 
 void BinarySearchTree::DELETE(node *z)
 {
+	node* y = new node();
 	if (z->left == NULL)
 	{
 		swap(z, z->right);
 	}
+	else if (z->right == NULL)
+	{
+		swap(z, z->left);
+	}
+	else
+	{
+		y = FIND_MIN(z->right);
+		if (y->parent != z)
+		{
+			swap(y, y->right);
+			y->right = z->right;
+			y->right->parent = y;
+		}
+		swap(z, y);
+		y->left = z->left;
+		y->left->parent = y;
+	}
+
 
 }
 
@@ -270,7 +289,10 @@ int main()
 			temp = bst.SEARCH(bst.root, cancelChoice);
 			bst.DELETE(temp);
 			bst.INORDER_TREE_WALK(bst.root);
+		case 4:
+			exit(0);
 		default:
+			cout << "Error: Not an option" << endl;
 			break;
 		}
 		cout << endl << endl;
