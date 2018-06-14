@@ -141,29 +141,15 @@ void BinarySearchTree::flightRequest(node * tmp, int timeArrival, int k)
 
 	}
 }
-
-void BinarySearchTree::clearedForLanding(int timeArrival)
+void BinarySearchTree::INORDER_TREE_WALK(node *x)
 {
-	int FNumber;
-	cout << "you are clear for landing" << endl;
-	cout << "What is your flight number? ";
-	cin >> FNumber;
-	TREE_INSERT(timeArrival, FNumber);
-}
-
-
-
-void BinarySearchTree::INORDER_TREE_WALK(node* x)
-{
-	if (x != NULL)
-	{
 		if (x->left) INORDER_TREE_WALK(x->left);
 		cout << "Flight #" << x->flightnumber << " Arriving in: " << x->arrivalTime << " Minutes" << endl;
 		if (x->right) INORDER_TREE_WALK(x->right);
 	}
 
 
-}
+
 
 void BinarySearchTree::POSTORDER_TREE_WALK(node *x)
 {
@@ -249,12 +235,34 @@ BinarySearchTree::node * BinarySearchTree::FIND_MIN(node *x)
 
 int main()
 {
+	int LT, choice, timegap;
 	BinarySearchTree bst;
 	cout << "Welcome to SkyHarbor" << endl;
-	bst.flightRequest(bst.root, 445, 1);
-	bst.flightRequest(bst.root, 60, 1);
+	cout << "What option would you like to see? " << endl;
+	cout << "1. Add a flight." << endl;
+	cout << "2. Print the current flight list" << endl;
+	cout << "3. Remove a flight from the current list" << endl;
+	cout << "4. Exit" << endl << flush;
+	cin >> choice;
+	
+	switch (choice)
+	{
+	case 1: 
+		cout << "What time gap are we looking at here? " << endl << flush;
+		cin >> timegap;
+		cout << "This is Roblox runway 32B, What is your landing time inbound? " << endl << flush;
+		cin >> LT;
+		bst.flightRequest(bst.root, LT, timegap);
+		break;
+	case 2:
+		bst.INORDER_TREE_WALK(bst.root);
+		break;
+		
+	default:
+		break;
+	}
 
-	bst.INORDER_TREE_WALK(bst.root);
+
 	system("pause");
 
 	return 0;

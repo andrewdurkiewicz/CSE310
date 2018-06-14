@@ -1,3 +1,4 @@
 ﻿  projectRunway.cpp
-c:\users\andre\documents\github\cse310\binarysearchtree\runway\runway\projectrunway.cpp(210): warning C4715: 'BinarySearchTree::SEARCH': not all control paths return a value
-  Runway.vcxproj -> C:\Users\andre\Documents\GitHub\CSE310\BinarySearchTree\Runway\Debug\Runway.exe
+c:\users\andre\documents\github\cse310\binarysearchtree\runway\runway\projectrunway.cpp(196): warning C4715: 'BinarySearchTree::SEARCH': not all control paths return a value
+projectRunway.obj : error LNK2019: unresolved external symbol "public: void __thiscall BinarySearchTree::clearedForLanding(int)" (?clearedForLanding@BinarySearchTree@@QAEXH@Z) referenced in function "public: void __thiscall BinarySearchTree::flightRequest(class BinarySearchTree::node *,int,int)" (?flightRequest@BinarySearchTree@@QAEXPAVnode@1@HH@Z)
+C:\Users\andre\Documents\GitHub\CSE310\BinarySearchTree\Runway\Debug\Runway.exe : fatal error LNK1120: 1 unresolved externals
