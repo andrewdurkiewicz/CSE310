@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
 using namespace std;
 
 class BinarySearchTree
@@ -29,6 +30,7 @@ public:
 	void DELETE(node*);
 	void flightRequest(node*, int, int);
 	void clearedForLanding(int);
+	void swap(BinarySearchTree::node*, BinarySearchTree::node*);
 	BinarySearchTree::node* SEARCH(node* root, int arrivalTime);
 	BinarySearchTree::node* FIND_MAX(node*);
 	BinarySearchTree::node* SUCCESSOR(node*);
@@ -71,49 +73,12 @@ void BinarySearchTree::TREE_INSERT(int timeArrival, int flightNumber)
 }
 
 void BinarySearchTree::DELETE(node *z)
-
 {
-	cout << "DELETE" << " " << z->arrivalTime;
-	BinarySearchTree::node* temp;
-
-	if ((z->left == NULL) && (z->right == NULL))//No children
+	if (z->left == NULL)
 	{
-		temp = z->parent;
-		if (temp->right == z)
-		{
-			temp->right = NULL;
-
-		}
-		else if (temp->left == z)
-		{
-			temp->left = NULL;
-		}
-		delete[] z;
+		swap(z, z->right);
 	}
-	else if ((z->right == NULL) && (z->left != NULL))
-	{
 
-		temp = z->parent;
-		z = z->left;
-		z->parent = temp;
-		temp->left = z;
-	}
-	else if ((z->left == NULL) && (z->right != NULL))
-	{
-		temp = z->parent;
-		z = z->right;
-		z->parent = temp;
-		temp->right = z;
-	}
-	else if ((z->left != NULL) && (z->right != NULL))
-	{
-		temp = FIND_MIN(z->right);
-		z->arrivalTime = temp->arrivalTime;
-		temp->parent->left = NULL;
-		delete[] temp;
-
-
-	}
 }
 
 void BinarySearchTree::flightRequest(node * tmp, int timeArrival, int k)
@@ -126,16 +91,24 @@ void BinarySearchTree::flightRequest(node * tmp, int timeArrival, int k)
 	{
 		if (tmp->right == NULL)
 		{
-			if (k >= (timeArrival - tmp->arrivalTime))
+			if (k <= abs(timeArrival - tmp->arrivalTime))
 			{
 				clearedForLanding(timeArrival);
+			}
+			else
+			{
+				cout << "You are NOT clear to land, not enough time between" << endl;
 			}
 		}
 		else if (tmp->right != NULL)
 		{
-			if (k >= (timeArrival - tmp->arrivalTime) && k >= (timeArrival - tmp->right->arrivalTime))
+			if (k <= abs(timeArrival - tmp->arrivalTime) && k <= abs(timeArrival - tmp->right->arrivalTime))
 			{
 				clearedForLanding(timeArrival);
+			}
+			else
+			{
+				cout << "You are NOT clear to land, not enough time between" << endl;
 			}
 		}
 
@@ -154,6 +127,26 @@ void BinarySearchTree::clearedForLanding(int timeArrival)
 	cout << "What is your flight number? ";
 	cin >> FNumber;
 	TREE_INSERT(timeArrival, FNumber);
+}
+
+void BinarySearchTree::swap(BinarySearchTree::node *u, BinarySearchTree::node *v) //from the book
+{
+	if (u->parent == NULL)
+	{
+		root = v;
+	}
+	else if (u == u->parent->left)
+	{
+		u->parent->left = v;
+	}
+	else
+	{
+		u->parent->right = v;
+	}
+	if (v != NULL)
+	{
+		v->parent = u->parent;
+	}
 }
 
 
@@ -182,14 +175,14 @@ void BinarySearchTree::PREORDER_TREE_WALK(node *x)
 
 
 
-BinarySearchTree::node * BinarySearchTree::SEARCH(node* x, int arrivalTime)
+BinarySearchTree::node * BinarySearchTree::SEARCH(node* x, int FN)
 {
 
 	BinarySearchTree::node* minimum = FIND_MIN(x);
 
 	while (x->right != NULL)
 	{
-		if (x->arrivalTime == arrivalTime)
+		if (x->flightnumber == FN)
 		{
 			return x;
 		}
@@ -244,11 +237,13 @@ BinarySearchTree::node * BinarySearchTree::FIND_MIN(node *x)
 int main()
 {
 	BinarySearchTree bst;
-	int LT, choice, timegap;
-
+	BinarySearchTree::node* temp;
+	int LT, choice, timegap, cancelChoice;
+	cout << "Welcome to SkyHarbor" << endl;
+	cout << "What time gap are we looking at here? " << endl << flush;
+	cin >> timegap;
 	while (true)
 	{
-		cout << "Welcome to SkyHarbor" << endl;
 		cout << "What option would you like to see? " << endl;
 		cout << "1. Add a flight." << endl;
 		cout << "2. Print the current flight list" << endl;
@@ -259,19 +254,26 @@ int main()
 		switch (choice)
 		{
 		case 1:
-			cout << "What time gap are we looking at here? " << endl << flush;
-			cin >> timegap;
+
 			cout << "This is Roblox runway 32B, What is your landing time inbound? " << endl << flush;
 			cin >> LT;
 			bst.flightRequest(bst.root, LT, timegap);
 			break;
 		case 2:
 			bst.INORDER_TREE_WALK(bst.root);
+			
 			break;
-
+		case 3:
+			bst.INORDER_TREE_WALK(bst.root);
+			cout << "Which Flight would you like to cancel? " << endl;
+			cin >> cancelChoice;
+			temp = bst.SEARCH(bst.root, cancelChoice);
+			bst.DELETE(temp);
+			bst.INORDER_TREE_WALK(bst.root);
 		default:
 			break;
 		}
+		cout << endl << endl;
 
 	}
 	system("pause");
