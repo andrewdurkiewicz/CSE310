@@ -13,9 +13,12 @@ struct node
 	double gpa;
 	int key;
 };
-
+const int indexSize = 1000;
+const int maxKey = 65536;
 int getTotalStudents(int type);
-void insert(node *hash[1000],int k, string thisName, string thisLevel, double thisGPA);
+void insert(node *hash[indexSize],int k, string thisName, string thisLevel, double thisGPA);
+
+
 int main()
 {
 	srand(time(0));
@@ -25,7 +28,7 @@ int main()
 	double GPA;
 	string level[4] = { "Freshman", "Sophomore", "Junior", "Senior" };
 
-	node* hash[1000];
+	node* hash[indexSize];
 	node* tmp = new node;
 	tmp->right = NULL;
 	tmp->name = "";
@@ -39,8 +42,8 @@ int main()
 	}
 	while (true)
 	{
-		int k = rand() % 65536;
-		int index = (k) % 1000;
+		int k = rand() % maxKey;
+		int index = (k) % indexSize;
 
 		cout << "Welcome to Arizona State University. There Are currently " << getTotalStudents(0) << " students in our system" << endl;
 		cout << "1. Insert a student" << endl;
@@ -49,6 +52,9 @@ int main()
 		switch (choice)
 		{
 		case 1:
+			insert(hash, k, stu_name, thislevel, GPA);
+			insert(hash, k, stu_name, thislevel, GPA);
+
 			cout << "What is his/her name?" << endl << flush;
 			cin >> stu_name;
 			cout << "What is their academic level? Select from the following:" << endl;
@@ -67,7 +73,7 @@ int main()
 
 }
 
-int getTotalStudents(int type) //type 0 is reading, type 1 is increasing, type 2 is decreasing
+int getTotalStudents(int type) //type 0 is reading, type 1 is increasing, type 2 is decreasing. The static int helps keep track of total students.
 {
 	static int size = 0;
 	switch (type)
@@ -84,52 +90,56 @@ int getTotalStudents(int type) //type 0 is reading, type 1 is increasing, type 2
 	return size;
 }
 
-void insert(node* hash[1000], int k, string thisName, string thisLevel, double thisGPA)
+void insert(node * hash[indexSize], int k, string thisName, string thisLevel, double thisGPA)
 {
-	int size = getTotalStudents(0);
-	if (size <= 10000)
 	{
-
-		node* n = new node();
-		int index = k % 1000;
-		if (hash[index] != NULL)
+		int size = getTotalStudents(0);
+		if (size <= 10000)
 		{
-			//chain
-			node* tmp = hash[index];
-			n->head = tmp;
-			while (tmp->right != NULL)
+
+			node* n = new node();
+			int index = k % 1000;
+			if (hash[index] != NULL)
 			{
-				if (tmp->right->key != k)
-				{ 
-					tmp = tmp->right;
-			
-				}
-				else
+				//chain
+				node* tmp = hash[index];
+				n->head = tmp;
+				while (tmp->right != NULL)
 				{
-					cout << "Error! key already exists! Rehash necessary" << endl;
-					break;
-				}
-			
-			tmp->right = n;
-			n->name = thisName;
-			n->ALevel = thisLevel;
-			n->gpa = thisGPA;
-			n->key = k;
+					if (tmp->right->key != k)
+					{
+						tmp = tmp->right;
 
+					}
+					else
+					{
+						cout << "Error! key already exists! Rehash necessary" << endl;
+						break;
+					}
+
+					tmp->right = n;
+					n->name = thisName;
+					n->ALevel = thisLevel;
+					n->gpa = thisGPA;
+					n->key = k;
+
+				}
+			}
+			else if (hash[index] == NULL)
+			{
+				hash[index] = n;
+				n->head = n;
+				n->name = thisName;
+				n->ALevel = thisLevel;
+				n->gpa = thisGPA;
+				n->right = NULL;
+			}
+			getTotalStudents(1);
 		}
-		else if (hash[index] == NULL)
+		else
 		{
-			hash[index] = n;
-			n->head = n;
-			n->name = thisName;
-			n->ALevel = thisLevel;
-			n->gpa = thisGPA;
-			n->right = NULL;
+			cout << "University Full" << endl;
 		}
-		getTotalStudents(1);
-	}
-	else
-	{
-		cout << "University Full" << endl;
 	}
 }
+
