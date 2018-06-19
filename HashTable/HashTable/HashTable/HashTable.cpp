@@ -5,6 +5,7 @@ using namespace std;
 
 struct node
 {
+	node * left;
 	node * right;
 	node * head;
 	string name;
@@ -14,26 +15,16 @@ struct node
 };
 
 int getTotalStudents(int type);
-void insert(node *hash[1000],int k, string thisName, string thisLevel, double thisGPA);
+void insert(node *hash[65536], int k, string thisName, string thisLevel, double thisGPA);
 int main()
 {
-	int choice, k, levelChoice;
+	int choice,k, levelChoice;
 	string stu_name;
 	string thislevel;
 	double GPA;
 	string level[4] = { "Freshman", "Sophomore", "Junior", "Senior" };
 
-	node* hash[1000];
-	node* tmp = new node;
-	tmp->right = NULL;
-	tmp->name = "";
-	tmp->ALevel = "";
-	tmp->gpa = 0.0;
-	tmp->head = NULL;
-	for (int i = 0; i < 1000; i++)
-	{
-		hash[i] = tmp;
-	}
+	node** hash =  new node*[65536];
 	while (true)
 	{
 		cout << "Welcome to Arizona State University. There Are currently " << getTotalStudents(0) << " students in our system" << endl;
@@ -66,7 +57,7 @@ int getTotalStudents(int type) //type 0 is reading, type 1 is increasing, type 2
 	static int size = 0;
 	switch (type)
 	{
-	case 0:
+	case 0 :
 		break;
 	case 1:
 		size++;
@@ -76,7 +67,7 @@ int getTotalStudents(int type) //type 0 is reading, type 1 is increasing, type 2
 	return size;
 }
 
-void insert(node* hash[1000], int k, string thisName, string thisLevel, double thisGPA)
+void insert(node* hash[65536], int k, string thisName, string thisLevel, double thisGPA)
 {
 	int size = getTotalStudents(0);
 	if (size <= 10000)
@@ -94,15 +85,17 @@ void insert(node* hash[1000], int k, string thisName, string thisLevel, double t
 				tmp = tmp->right;
 			}
 			tmp->right = n;
+			n->left = tmp;
 			n->name = thisName;
 			n->ALevel = thisLevel;
 			n->gpa = thisGPA;
-
+			
 		}
 		else if (hash[key] == NULL)
 		{
 			hash[key] = n;
 			n->head = n;
+			n->left = NULL;
 			n->name = thisName;
 			n->ALevel = thisLevel;
 			n->gpa = thisGPA;
@@ -115,3 +108,5 @@ void insert(node* hash[1000], int k, string thisName, string thisLevel, double t
 		cout << "University Full" << endl;
 	}
 }
+
+
