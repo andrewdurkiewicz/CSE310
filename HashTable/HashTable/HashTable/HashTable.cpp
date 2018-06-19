@@ -16,12 +16,12 @@ struct node
 
 int getTotalStudents(int type);
 void insert(node *hash[1000], int keyValue, string thisName, string thisLevel, double thisGPA);
+void printList(node*hash[1000]);
 int main()
 {
 	srand(time(0));
 	int choice, levelChoice;
-	string stu_name;
-	string thislevel;
+	string stu_name, last_Name, thislevel;
 	double GPA;
 	string level[4] = { "Freshman", "Sophomore", "Junior", "Senior" };
 
@@ -39,12 +39,16 @@ int main()
 		cout << "Welcome to Arizona State University. There Are currently " << getTotalStudents(0) << " students in our system" << endl;
 		cout << "1. Insert a student" << endl;
 		cout << "2. Delete a student" << endl << flush;
+		cout << "3. Print current list" << endl;
 		cin >> choice;
 		switch (choice)
 		{
 		case 1:
-			cout << "What is his/her name?" << endl << flush;
+			cout << "Enter first name?" << endl << flush;
 			cin >> stu_name;
+			cout << "Enter Last name?" << endl << flush;
+			cin >> last_Name;
+			stu_name = stu_name + " " + last_Name;
 			cout << "What is their academic level? Select from the following:" << endl;
 			cout << "1. Freshman" << endl << "2. Sophomore" << endl << "3. Junior" << endl << "4. Senior" << endl << flush;
 			cin >> levelChoice;
@@ -53,6 +57,11 @@ int main()
 			cin >> GPA;
 			cout << "attempting to add in index: " << index << endl;
 			insert(hash, keyValue, stu_name, thislevel, GPA);
+		case 2:
+			break;
+		case 3:
+			printList(hash);
+			break;
 
 		}
 	}
@@ -129,3 +138,26 @@ void insert(node* hash[1000], int keyValue, string thisName, string thisLevel, d
 			cout << "University Full" << endl;
 		}
 	}
+
+void printList(node * hash[1000])
+{
+	node* tmp;
+	for (int i = 0; i < 1000; i++)
+	{
+		if (hash[i]->head == NULL)
+		{
+			continue;
+		}
+		else
+		{
+			tmp = hash[i]->head;
+			cout << "Index:" << i << " " << tmp->name << " | GPA: " << tmp->gpa << " | Academic level: " << tmp->ALevel <<  endl;
+			while (tmp->right != NULL)
+			{
+				tmp = tmp->right;
+				cout << "Index:" << i << " " << tmp->name << " | GPA: " << tmp->gpa << " | Academic level: " << tmp->ALevel << endl;
+			}
+		}
+	}
+	cout << endl << endl;
+}
