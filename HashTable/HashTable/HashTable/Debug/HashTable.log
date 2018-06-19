@@ -1,3 +1,2 @@
 ﻿  HashTable.cpp
-c:\users\adurkiew\documents\github\cse310\hashtable\hashtable\hashtable\hashtable.cpp(22): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-  HashTable.vcxproj -> C:\Users\adurkiew\Documents\GitHub\CSE310\HashTable\HashTable\Debug\HashTable.exe
+  HashTable.vcxproj -> C:\Users\andre\Documents\GitHub\CSE310\HashTable\HashTable\Debug\HashTable.exe
