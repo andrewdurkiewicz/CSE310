@@ -6,16 +6,16 @@ using namespace std;
 
 struct node
 {
-	node * right;
-	node * head;
-	string name;
-	string ALevel;
+	node * right = NULL;
+	node * head = NULL;
+	string name = "";
+	string ALevel = "";
 	double gpa;
 	int key;
 };
 
 int getTotalStudents(int type);
-void insert(node *hash[1000], int k, string thisName, string thisLevel, double thisGPA);
+void insert(node *hash[1000], int keyValue, string thisName, string thisLevel, double thisGPA);
 int main()
 {
 	srand(time(0));
@@ -26,21 +26,15 @@ int main()
 	string level[4] = { "Freshman", "Sophomore", "Junior", "Senior" };
 
 	node* hash[1000];
-	node* tmp = new node;
-	tmp->right = NULL;
-	tmp->name = "";
-	tmp->ALevel = "";
-	tmp->gpa = 0.0;
-	tmp->head = NULL;
 
 	for (int i = 0; i < 1000; i++)
 	{
-		hash[i] = tmp;
+		hash[i] = new node;
 	}
 	while (true)
 	{
-		int k = rand() % 65536;
-		int index = (k) % 1000;
+		int keyValue = rand() % 65536;
+		int index = keyValue % 1000;
 
 		cout << "Welcome to Arizona State University. There Are currently " << getTotalStudents(0) << " students in our system" << endl;
 		cout << "1. Insert a student" << endl;
@@ -57,8 +51,8 @@ int main()
 			thislevel = level[levelChoice - 1];
 			cout << "What is their GPA?" << endl;
 			cin >> GPA;
-			cout << "attempting to add in index: " << index << " with a key value of: " << k << endl;
-			insert(hash, k, stu_name, thislevel, GPA);
+			cout << "attempting to add in index: " << index << endl;
+			insert(hash, keyValue, stu_name, thislevel, GPA);
 
 		}
 	}
@@ -84,47 +78,49 @@ int getTotalStudents(int type) //type 0 is reading, type 1 is increasing, type 2
 	return size;
 }
 
-void insert(node* hash[1000], int k, string thisName, string thisLevel, double thisGPA)
+void insert(node* hash[1000], int keyValue, string thisName, string thisLevel, double thisGPA)
 {
 	int size = getTotalStudents(0);
 	if (size <= 10000)
 	{
 
-		node* n = new node();
-		int index = k % 1000;
-		if (hash[index] != NULL)
+		node* tmp;
+		int index = keyValue % 1000;
+		if (hash[index]->head != NULL) // check, is it empty?
 		{
-			//chain
-			node* tmp = hash[index];
-			n->head = tmp;
+			tmp = hash[index]->head;
+			//if it is not, we need to get to the last element to add to the chain while checking the key values
 			while (tmp->right != NULL)
 			{
-				if (tmp->right->key != k)
+				if (tmp->key = keyValue)
 				{
-					tmp = tmp->right;
-
+					cout << "Error, Key already exist" << endl;
+					continue;
 				}
 				else
 				{
-					cout << "Error! key already exists! Rehash necessary" << endl;
-					break;
+					tmp = tmp->right;
 				}
-
-				tmp->right = n;
-				n->name = thisName;
-				n->ALevel = thisLevel;
-				n->gpa = thisGPA;
-				n->key = k;
-
 			}
-		else if (hash[index] == NULL)
-		{
-			hash[index] = n;
-			n->head = n;
-			n->name = thisName;
+			//when we get to the end we need to add it.
+			node* n = new node;
+			tmp->right = n;
+			n->head = tmp->head;
 			n->ALevel = thisLevel;
 			n->gpa = thisGPA;
+			n->key = keyValue;
 			n->right = NULL;
+			n->name = thisName;
+		}
+		else if (hash[index]->head == NULL)
+		{
+			hash[index]->gpa = thisGPA;
+			hash[index]->name = thisName;
+			hash[index]->ALevel = thisLevel;
+			hash[index]->head = hash[index];
+			hash[index]->right = NULL;
+			hash[index]->key = keyValue;
+
 		}
 		getTotalStudents(1);
 		}
