@@ -1,6 +1,7 @@
 ﻿  HashTable.cpp
-c:\users\andre\documents\github\cse310\hashtable\hashtable\hashtable\hashtable.cpp(25): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
-c:\users\andre\documents\github\cse310\hashtable\hashtable\hashtable\hashtable.cpp(105): warning C4553: '==': result of expression not used; did you intend '='?
-c:\users\andre\documents\github\cse310\hashtable\hashtable\hashtable\hashtable.cpp(116): warning C4553: '==': result of expression not used; did you intend '='?
-c:\users\andre\documents\github\cse310\hashtable\hashtable\hashtable\hashtable.cpp(44): warning C4101: 'index': unreferenced local variable
+c:\users\andre\documents\github\cse310\hashtable\hashtable\hashtable\hashtable.cpp(26): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+c:\users\andre\documents\github\cse310\hashtable\hashtable\hashtable\hashtable.cpp(41): warning C4101: 'iterate': unreferenced local variable
+c:\users\andre\documents\github\cse310\hashtable\hashtable\hashtable\hashtable.cpp(42): warning C4101: 'tmp': unreferenced local variable
+c:\users\andre\documents\github\cse310\hashtable\hashtable\hashtable\hashtable.cpp(44): warning C4101: 'delThis': unreferenced local variable
+c:\users\andre\documents\github\cse310\hashtable\hashtable\hashtable\hashtable.cpp(45): warning C4101: 'index': unreferenced local variable
   HashTable.vcxproj -> C:\Users\andre\Documents\GitHub\CSE310\HashTable\HashTable\Debug\HashTable.exe

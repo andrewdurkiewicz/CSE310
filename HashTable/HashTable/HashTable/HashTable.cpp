@@ -19,6 +19,7 @@ int main();
 int getTotalStudents(int type);
 void insert(node *hash[1000], int keyValue, string thisName, string thisLevel, double thisGPA);
 void printList(node*hash[1000]);
+void Delete(node* hash[1000], int kV);
 node *Search(node* hash[1000], int findKey);
 int main()
 {
@@ -84,38 +85,8 @@ int main()
 				cout << "Error, key must be between 0 and 65536, please retry." << endl << flush;
 				cin >> Dy;
 			}
-			tmp = Search(hash, Dy);
-			if (tmp == NULL)
-			{
-				cout << "Error, couldn't find anything at this location" << endl;
-				break;
-			}
-			iterate = tmp->head;
-		
-			if (iterate == tmp->head)
-			{
-				cout << "its the head";
-			}
-			else if (tmp->right == NULL) //on the end
-			{
-				while (iterate->right != tmp)
-				{
-					iterate = iterate->right;
-				}
-				iterate->right == NULL;
-				delete[] tmp;
-			}
-			else
-			{
-				while (iterate->right != tmp)
-				{
-					iterate = iterate->right;
-				}
-				delThis = tmp;
-				tmp = tmp->right;
-				iterate->right == tmp;
-				delete[] delThis;
-			}
+			Delete(hash, Dy);
+
 			break;
 		case 3:
 			printList(hash);
@@ -239,6 +210,24 @@ void printList(node * hash[1000])
 		}
 	}
 	cout << endl << endl;
+}
+
+void Delete(node * hash[1000], int kV)
+{
+	node* find = Search(hash, kV);
+	node* tmp = hash[(kV % 1000)];
+	if ((find != find->head) && (find->right != NULL))
+	{
+		while (tmp->right != find)
+		{
+			tmp = tmp->right;
+		}
+		tmp->right = find->right;
+		find = NULL;
+	}
+	else {
+		cout << "something wrong";
+	}
 }
 
 node* Search(node * hash[1000], int findKey)
