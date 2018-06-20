@@ -243,21 +243,31 @@ void printList(node * hash[1000])
 
 node* Search(node * hash[1000], int findKey)
 {
-	node* tmp;
-	int k = findKey % 1000;
-	tmp = hash[k]->head;
-	if (tmp == NULL)
+	int index = findKey % 1000;
+	node* tmp = hash[index];
+	if (tmp->right == NULL) { return NULL; }
+	else if(tmp->right != NULL)
 	{
-		return NULL;
-	}
-	while (tmp->right != NULL);
-	{
+		while (tmp->right != NULL)
+		{
+			if (tmp->key == findKey)
+			{
+				return tmp;
+			}
+			else
+			{
+				tmp = tmp->right;
+			}
+		}
 
-		tmp = tmp->right;
 	}
 	if (tmp->key == findKey)
 	{
 		return tmp;
 	}
-	return NULL;
+	else
+	{
+		cout << "Not found";
+		return NULL;
+	}
 }
