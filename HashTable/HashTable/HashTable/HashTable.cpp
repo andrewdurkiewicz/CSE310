@@ -41,8 +41,8 @@ int main()
 		node* iterate;
 		node* tmp; 
 		node* fromsearch;
-		node* delThis;
-		int index, kv;
+
+		int kv;
 
 		cout << "# of Students in Database: "<< getTotalStudents(0) << endl;
 		cout << "Select From the Menu Below:" << endl;
@@ -215,6 +215,7 @@ void printList(node * hash[1000])
 void Delete(node * hash[1000], int kV)
 {
 	node* find = Search(hash, kV);
+
 	node* tmp = hash[(kV % 1000)];
 	if ((find != find->head) && (find->right != NULL))
 	{
@@ -224,6 +225,8 @@ void Delete(node * hash[1000], int kV)
 		}
 		tmp->right = find->right;
 		find = NULL;
+		getTotalStudents(2);
+
 	}
 	else if ((find->right == NULL) && (find != find->head))
 	{
@@ -234,49 +237,53 @@ void Delete(node * hash[1000], int kV)
 		}
 		tmp->right = NULL;
 		find = NULL;
+		getTotalStudents(2);
+
 	}
 	else if (tmp == find)
 	{
 		if (tmp->right == NULL)
 		{
-			tmp = NULL; //head by itself;
+			tmp->ALevel = "";
+			tmp->head = NULL;
+			tmp->right = NULL;
+			tmp->gpa = 0.0;
+			tmp->name = "";
+			tmp->key = NULL;//head by itself;
 		}
 		else
 		{
 			tmp = tmp->right;
-			tmp->head = tmp;
-			if (tmp->right == NULL)
-			{
-				find = tmp;
-				tmp = tmp->right;
+			find->head = tmp;
+			if (tmp != NULL) {
+				while (tmp->right != NULL)
+				{
+					find->gpa = tmp->gpa;
+					find->name = tmp->name;
+					find->key = tmp->key;
+					find->right = tmp->right;
+					find = find->right;
+					tmp = tmp->right;
+				}
 			}
-			
-			while (tmp->right != NULL)
-			{
-				find->gpa = tmp->gpa;
-				find->name = tmp->name;
-				find->head = tmp->head;
-				find->key = tmp->key;
-				find->right = tmp->right;
-				find = tmp;
-				tmp = tmp->right;
-			}
-			
 			tmp = NULL;
 			find->right = NULL;
 		}
+		getTotalStudents(2);
+
 
 	}
 	else {
 		cout << "something wrong";
 	}
+
 }
 
 node* Search(node * hash[1000], int findKey)
 {
 	int index = findKey % 1000;
 	node* tmp = hash[index];
-	if (tmp->right == NULL) { return NULL; }
+	if (tmp->right == NULL && (tmp->key == findKey)) { return tmp; }
 	else if(tmp->right != NULL)
 	{
 		while (tmp->right != NULL)
