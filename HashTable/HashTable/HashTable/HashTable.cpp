@@ -235,6 +235,38 @@ void Delete(node * hash[1000], int kV)
 		tmp->right = NULL;
 		find = NULL;
 	}
+	else if (tmp == find)
+	{
+		if (tmp->right == NULL)
+		{
+			tmp = NULL; //head by itself;
+		}
+		else
+		{
+			tmp = tmp->right;
+			tmp->head = tmp;
+			if (tmp->right == NULL)
+			{
+				find = tmp;
+				tmp = tmp->right;
+			}
+			
+			while (tmp->right != NULL)
+			{
+				find->gpa = tmp->gpa;
+				find->name = tmp->name;
+				find->head = tmp->head;
+				find->key = tmp->key;
+				find->right = tmp->right;
+				find = tmp;
+				tmp = tmp->right;
+			}
+			
+			tmp = NULL;
+			find->right = NULL;
+		}
+
+	}
 	else {
 		cout << "something wrong";
 	}
