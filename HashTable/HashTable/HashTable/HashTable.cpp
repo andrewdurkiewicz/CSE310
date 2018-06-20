@@ -14,6 +14,8 @@ struct node
 	int key;
 };
 
+int main();
+
 int getTotalStudents(int type);
 void insert(node *hash[1000], int keyValue, string thisName, string thisLevel, double thisGPA);
 void printList(node*hash[1000]);
@@ -21,7 +23,7 @@ node *Search(node* hash[1000], int findKey);
 int main()
 {
 	srand(time(0));
-	int choice, levelChoice, y;
+	int choice, levelChoice, Dy, Sy;
 	string stu_name, last_Name, thislevel;
 	double GPA;
 	string level[4] = { "Freshman", "Sophomore", "Junior", "Senior" };
@@ -35,8 +37,11 @@ int main()
 	cout << endl << "Welcome to Arizona State University." << endl << endl;
 	while (true)
 	{
-		int keyValue = rand() % 65536;
-		int index = keyValue % 1000;
+		node* iterate;
+		node* tmp; 
+		node* fromsearch;
+		node* delThis;
+		int index, keyValue;
 
 		cout << "# of Students in Database: "<< getTotalStudents(0) << endl;
 		cout << "Select From the Menu Below:" << endl;
@@ -61,31 +66,76 @@ int main()
 			thislevel = level[levelChoice - 1];
 			cout << endl << "What is their GPA?" << endl;
 			cin >> GPA;
-			//cout << "attempting to add in index: " << index << endl;
-			//cout << "Key Level: " << keyValue;
+			cout << endl << "Enter a key value (between 0-65536)" << endl << flush;
+			cin >> keyValue;
+			while (keyValue < 0 && keyValue> 65536)
+			{
+				cout << "Error, key must be between 0 and 65536, please retry." << endl << flush;
+				cin >> keyValue;
+			}
 			insert(hash, keyValue, stu_name, thislevel, GPA);
 			cout << endl << "Insert Completed" << endl << endl;
+			break;
 		case 2:
+			cout << "Enter a key value (between 0-65536) to Delete: " << endl << flush;
+			cin >> Dy;
+			while (Dy < 0 && Dy> 65536)
+			{
+				cout << "Error, key must be between 0 and 65536, please retry." << endl << flush;
+				cin >> Dy;
+			}
+			tmp = Search(hash, Dy);
+			if (tmp == NULL)
+			{
+				cout << "Error, couldn't find anything at this location" << endl;
+				break;
+			}
+			iterate = tmp->head;
+		
+			if (iterate == tmp->head)
+			{
+				cout << "its the head";
+			}
+			else if (tmp->right == NULL) //on the end
+			{
+				while (iterate->right != tmp)
+				{
+					iterate = iterate->right;
+				}
+				iterate->right == NULL;
+				delete[] tmp;
+			}
+			else
+			{
+				while (iterate->right != tmp)
+				{
+					iterate = iterate->right;
+				}
+				delThis = tmp;
+				tmp = tmp->right;
+				iterate->right == tmp;
+				delete[] delThis;
+			}
 			break;
 		case 3:
 			printList(hash);
 			break;
 		case 4:
 			cout << "Enter a key value (between 0-65536) to search for: " << endl << flush;
-			cin >> y;
-			while (y < 0 && y> 65536)
+			cin >> Sy;
+			while (Sy < 0 && Sy> 65536)
 			{
 				cout << "Error, key must be between 0 and 65536, please retry." << endl << flush;
-				cin >> y;
+				cin >> Sy;
 			}
-			node* fromsearch = Search(hash, y);
+			fromsearch = Search(hash, Sy);
 			if (fromsearch == NULL)
 			{
-				cout << "Nothing was found with a key value of: " << y;
+				cout << "Nothing was found with a key value of: " << Sy;
 			}
 			else
 			{
-				cout << "The following student profile was located with a key value of: " << endl << y;
+				cout << "The following student profile was located with a key value of: " << endl << Sy;
 				cout << "Name: " << fromsearch->name << endl;
 				cout << "GPA: " << fromsearch->gpa << endl;
 				cout << "Academic Level" << fromsearch->ALevel << endl;
@@ -200,11 +250,12 @@ node* Search(node * hash[1000], int findKey)
 	}
 	while (tmp->right != NULL);
 	{
-		if (tmp->key == findKey)
-		{
-			return tmp;
-		}
+
 		tmp = tmp->right;
+	}
+	if (tmp->key == findKey)
+	{
+		return tmp;
 	}
 	return NULL;
 }
