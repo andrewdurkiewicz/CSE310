@@ -41,7 +41,7 @@ int main()
 		node* tmp; 
 		node* fromsearch;
 		node* delThis;
-		int index, keyValue;
+		int index, kv;
 
 		cout << "# of Students in Database: "<< getTotalStudents(0) << endl;
 		cout << "Select From the Menu Below:" << endl;
@@ -67,13 +67,13 @@ int main()
 			cout << endl << "What is their GPA?" << endl;
 			cin >> GPA;
 			cout << endl << "Enter a key value (between 0-65536)" << endl << flush;
-			cin >> keyValue;
-			while (keyValue < 0 && keyValue> 65536)
+			cin >> kv;
+			while (kv < 0 && kv> 65536)
 			{
 				cout << "Error, key must be between 0 and 65536, please retry." << endl << flush;
-				cin >> keyValue;
+				cin >> kv;
 			}
-			insert(hash, keyValue, stu_name, thislevel, GPA);
+			insert(hash, kv, stu_name, thislevel, GPA);
 			cout << endl << "Insert Completed" << endl << endl;
 			break;
 		case 2:
@@ -176,12 +176,14 @@ void insert(node* hash[1000], int keyValue, string thisName, string thisLevel, d
 		{
 			tmp = hash[index]->head;
 			//if it is not, we need to get to the last element to add to the chain while checking the key values
+			
 			while (tmp->right != NULL)
 			{
-				if (tmp->key = keyValue)
+				//int compare = tmp->key;
+				if (tmp->key == keyValue)
 				{
 					cout << "Error, Key already exist" << endl;
-					continue;
+					break;
 				}
 				else
 				{
