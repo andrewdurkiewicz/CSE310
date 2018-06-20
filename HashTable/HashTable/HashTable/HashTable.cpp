@@ -225,6 +225,16 @@ void Delete(node * hash[1000], int kV)
 		tmp->right = find->right;
 		find = NULL;
 	}
+	else if ((find->right == NULL) && (find != find->head))
+	{
+		//on the end, but not the head
+		while (tmp->right != find)
+		{
+			tmp = tmp->right;
+		}
+		tmp->right = NULL;
+		find = NULL;
+	}
 	else {
 		cout << "something wrong";
 	}
