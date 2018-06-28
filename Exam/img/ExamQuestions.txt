@@ -1,0 +1,10 @@
+In Use Cases, Titles Begin With a _______?
+What Use Case Arrow Does this Represent?
+Create a ________ when a use-case requires a graphical representation of the flow of interaction.
+SRS is a description of a software System to be developed. It lays out functional and non-functional __________.
+Which Diagram is this?
+Create a ________ when a use-case requires a list of the different states of the system. 
+Which Diagram is this? 
+In Activity Diagrams, a black circle represents what?
+What does MVD stand for?
+What type of relationship does inheritance demonstrate?

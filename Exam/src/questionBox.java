@@ -19,14 +19,16 @@ public class questionBox extends JPanel{
 	private static final long serialVersionUID = 1L;
 	JPanel bluescreen;
 	JPanel picturePanel;
-	String[] possiblePhotos = new String[]{"correct.png","wrong.png"};
+	String[] possiblePhotos = new String[]{"wrong.png","correct.png"};
 	int answerState;
 	int answerNumber;
 	JTextArea QuestionLabel;
+	static int rowValue = 0;
+	static int columnValue = 0;
 
 	public questionBox(int as, int an)
 	{
-		answerState = as;
+		this.answerState = as;
 		picturePanel = new JPanel();
 		picturePanel.setVisible(false);
 		picturePanel.setPreferredSize(new Dimension(200,100));
@@ -36,7 +38,16 @@ public class questionBox extends JPanel{
 		bluescreen.setPreferredSize(new Dimension(200,100));
 		
 		QuestionLabel = new JTextArea();
-		QuestionLabel.setText("Answer " + an);
+		QuestionLabel.setText(Answers.getAnswer(rowValue, columnValue));
+		if(columnValue == 3)
+		{
+			columnValue = 0;
+			rowValue = rowValue + 1;
+		}
+		else if(rowValue < 10)
+		{
+			columnValue = columnValue + 1;
+		}
 		QuestionLabel.setForeground(Color.WHITE);
 		QuestionLabel.setOpaque(false);
 		bluescreen.add(QuestionLabel);
@@ -68,6 +79,7 @@ public class questionBox extends JPanel{
 	{
 		bluescreen.setVisible(false);
 		picturePanel.setVisible(true);
+		testView.updateGrade(this.answerState);
 	}
 
 }

@@ -1,0 +1,40 @@
+Statement of Purpose
+Verb
+Description
+ActionListener
+Aggregation
+Composition
+Inheritance
+Realization
+UML
+Bounded Cycle Blueprint
+State Diagram
+Activity Diagram
+Requirements
+Estimates
+Use Cases
+Priorities
+Bounded Cycle Blueprint
+State Diagram
+UML Diagram
+Design Diagram
+Activity Diagram
+Bounded Cycle Blueprint
+UML Diagram
+Design Diagram
+Architecture Blueprint
+UML Diagram
+Design Diagram
+State Diagram
+Recursion
+Loop
+Starting State
+Ending State
+Model View Controller
+Modeling Vector Connection
+MultiVector Contrast
+Mapped Vector Connection
+Observes-a
+"Owns-a"
+"Is-a"
+"Has-a"

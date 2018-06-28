@@ -16,7 +16,7 @@ public class questionText extends JPanel{
 	public questionText(){
 		N = N + 1;
 		JTextArea question = new JTextArea();
-		question.setText("Question #" + N);
+		question.setText("Question #" + N + ": " + Questions.getQuestion(N-1));
 		question.setFont(new Font("SansSerif", Font.ITALIC + Font.BOLD, 12));
 		question.setWrapStyleWord(true);
         question.setForeground(Color.BLACK);
