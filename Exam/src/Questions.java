@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.Scanner;
 
 public class Questions {
 	private static String[] qtext = new String[10];;

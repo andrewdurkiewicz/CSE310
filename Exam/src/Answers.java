@@ -1,6 +1,5 @@
 
 import java.io.*;
-import java.util.Scanner;
 
 public class Answers {
 
@@ -19,7 +18,7 @@ public class Answers {
 				setText(c);
 			
 			}
-		
+			inputStream.close();
 			} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
